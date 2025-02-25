@@ -27,6 +27,10 @@ class CryptoController extends Controller
 
             if ($cachedData) {
                 $timeRemaining = max(0, $cacheTime - Carbon::now()->diffInSeconds(Carbon::parse($cachedData['last_update'])));
+
+                // Log de acceso a datos cacheados
+                Log::info("✅ Datos obtenidos de caché. Próxima actualización en {$timeRemaining} segundos.");
+
                 return response()->json([
                     'cryptos' => $cachedData['cryptos'],
                     'last_update' => $cachedData['last_update'],
@@ -35,6 +39,8 @@ class CryptoController extends Controller
             }
 
             Log::info("🔄 Solicitando datos a CoinCap...");
+
+            // Realizar la solicitud a CoinCap API
             $response = Http::get('https://api.coincap.io/v2/assets?limit=10');
 
             if ($response->failed()) {
@@ -57,10 +63,15 @@ class CryptoController extends Controller
 
             Cache::put($cacheKey, $result, $cacheTime);
 
+            Log::info("✅ Datos actualizados y guardados en caché. Próxima actualización en {$cacheTime} segundos.");
+
             return response()->json($result);
 
         } catch (\Exception $e) {
-            Log::error("❌ Excepción al obtener datos de CoinCap", ['error' => $e->getMessage()]);
+            Log::error("🚨 Excepción al obtener datos de CoinCap", [
+                'error' => $e->getMessage()
+            ]);
+
             return response()->json([
                 'error' => 'Exception occurred',
                 'message' => $e->getMessage()
