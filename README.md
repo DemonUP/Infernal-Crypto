@@ -10,7 +10,7 @@ Este **Crypto Dashboard** muestra en tiempo real las **10 principales criptomone
 ---
 
 ## 📷 Captura de Pantalla
-![Crypto Dashboard](https://via.placeholder.com/1200x600?text=Crypto+Dashboard+Preview)
+![Crypto Dashboard](public/images/screenshot.png)
 
 ---
 
@@ -111,7 +111,7 @@ Para reportar errores, abre un **issue** en GitHub.
 ## 📜 Licencia
 Este proyecto está bajo la licencia **MIT**.  
 
-📌 **Desarrollado con pasión y fuego 🔥 por [Tu Nombre]**  
+📌 **Desarrollado con pasión y fuego 🔥 por DemonUP**  
 
 ---
 
