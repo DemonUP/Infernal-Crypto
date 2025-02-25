@@ -1,4 +1,4 @@
-# 🚀 Crypto Dashboard - Infernal Edition 🔥
+#  Crypto Dashboard - Infernal Edition 🔥
 
 ### 🔴 Un dashboard de criptomonedas en tiempo real con un estilo oscuro e infernal 🔴
 
@@ -106,10 +106,7 @@ crypto-dashboard/
 ¿Tienes ideas para mejorar este proyecto? ¡Siéntete libre de hacer un **fork** y enviar un **pull request**!  
 Para reportar errores, abre un **issue** en GitHub.  
 
----
-
-## 📜 Licencia
-Este proyecto está bajo la licencia **MIT**.  
+--- 
 
 📌 **Desarrollado con pasión y fuego 🔥 por DemonUP**  
 
