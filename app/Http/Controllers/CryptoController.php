@@ -41,7 +41,7 @@ class CryptoController extends Controller
             Log::info("🔄 Solicitando datos a CoinCap...");
 
             // Realizar la solicitud a CoinCap API
-            $response = Http::get('https://api.coincap.io/v2/assets?limit=10');
+            $response = Http::get('https://api.coincap.io/v2/assets?limit=25');
 
             if ($response->failed()) {
                 Log::error("❌ Error en la API de CoinCap: " . $response->status(), [

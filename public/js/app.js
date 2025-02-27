@@ -137,5 +137,5 @@
   });
 
   resizeCanvas();
-  createDroplets(30);
+  createDroplets(70);
   animateDroplets();

@@ -1,183 +1,235 @@
- /************************************
-      FONDO PRINCIPAL Y ESTRUCTURA
-    *************************************/
-    html, body {
-        margin: 0;
-        padding: 0;
-        height: 100%;
-        overflow-x: hidden;
-      }
-      body {
-        font-family: 'Montserrat', sans-serif;
-        color: #dddddd;
-        position: relative;
+/************************************
+  RESETEO BÁSICO Y CONFIGURACIÓN
+*************************************/
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    /* Sin scroll global */
+    overflow: hidden;
+  }
 
-        /* Degradado infernal más oscuro */
-        background: linear-gradient(45deg, #0b0000, #300000, #0b0000);
-        background-size: 600% 600%;
-        animation: backgroundCycle 20s ease infinite;
-      }
-      @keyframes backgroundCycle {
-        0%   { background-position: 0% 50%; }
-        50%  { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-      }
+  body {
+    font-family: 'Montserrat', sans-serif;
+    color: #dddddd;
 
-      /* Textura sutil sobre el degradado */
-      body::before {
-        content: "";
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: url("https://www.transparenttextures.com/patterns/asfalt-dark.png");
-        opacity: 0.1;
-        pointer-events: none;
-        z-index: -1;
-      }
+    /* Degradado infernal más oscuro */
+    background: linear-gradient(45deg, #0b0000, #300000, #0b0000);
+    background-size: 600% 600%;
+    animation: backgroundCycle 20s ease infinite;
 
-      /* Canvas para gotas de sangre, detrás de todo el contenido */
-      #bloodCanvas {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: -2;
-      }
+    /* Usamos flex en columna para header - main - footer */
+    display: flex;
+    flex-direction: column;
+  }
 
-      /************************************
-        ENCABEZADO
-      *************************************/
-      header {
-        background: #200000;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-        text-align: center;
-        padding: 2.5rem 1rem;
-      }
-      header h1 {
-        font-family: 'Nosifer', cursive;
-        font-size: 3rem;
-        color: #ff2222; /* Rojo intenso */
-        text-shadow: 0 0 8px #ff2222, 0 0 12px #ff2222;
-        margin: 0;
-      }
-      header p {
-        margin-top: 1rem;
-        font-size: 1.25rem;
-        color: #e0e0e0;
-      }
+  @keyframes backgroundCycle {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
 
-      /************************************
-        CONTENEDOR PRINCIPAL
-      *************************************/
-      main {
-        max-width: 1200px;
-        margin: 2rem auto;
-        padding: 1rem;
-        position: relative;
-      }
+  /* Textura sutil */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("https://www.transparenttextures.com/patterns/asfalt-dark.png");
+    opacity: 0.1;
+    pointer-events: none;
+    z-index: -1;
+  }
 
-      /************************************
-        TARJETA DE INFORMACIÓN
-      *************************************/
-      .info-card {
-        background: rgba(25, 0, 0, 0.9);
-        border: 1px solid #440000;
-        border-radius: 0.75rem;
-        box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
-        margin-bottom: 2rem;
-      }
+  /* Canvas para gotas de sangre */
+  #bloodCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -2;
+  }
 
-      /************************************
-        TABLA DE CRIPTOS
-      *************************************/
-      .crypto-table-container {
-        background: rgba(25, 0, 0, 0.9);
-        border: 1px solid #440000;
-        border-radius: 0.75rem;
-        box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
-        overflow: hidden;
-      }
-      .crypto-table {
-        width: 100%;
-        border-collapse: collapse;
-      }
-      .crypto-table thead tr {
-        background-color: #2a0000;
-        border-bottom: 1px solid #440000;
-      }
-      .crypto-table thead th {
-        color: #f5f5f5;
-        font-size: 0.875rem;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        padding: 0.75rem;
-      }
-      .crypto-table tbody tr {
-        border-bottom: 1px solid #440000;
-        transition: background 0.2s;
-      }
-      .crypto-table tbody tr:hover {
-        background: rgba(255, 40, 40, 0.15);
-      }
-      .crypto-table tbody td {
-        padding: 0.75rem;
-        font-size: 0.875rem;
-      }
+  /************************************
+    ENCABEZADO
+  *************************************/
+  header {
+    background: #200000;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    text-align: center;
 
-      /************************************
-        ANIMACIONES DE PRECIOS
-      *************************************/
-      .price-up {
-        animation: flash-green 1s ease-in-out;
-      }
-      .price-down {
-        animation: flash-red 1s ease-in-out;
-      }
-      @keyframes flash-green {
-        0% { background-color: #10b981; color: #000; }
-        100% { background-color: transparent; color: inherit; }
-      }
-      @keyframes flash-red {
-        0% { background-color: #ef4444; color: #000; }
-        100% { background-color: transparent; color: inherit; }
-      }
+    /* Aumentamos padding para que sea más vistoso */
+    padding: 2rem 1rem;
+    /* Ocupa altura fija aproximada */
+    flex: 0 0 auto;
+  }
 
-      /************************************
-        ANIMACIÓN DE CARGA
-      *************************************/
-      .loading {
-        animation: pulse 2s infinite;
-      }
-      @keyframes pulse {
-        0%   { opacity: 0.5; }
-        50%  { opacity: 1; }
-        100% { opacity: 0.5; }
-      }
+  header h1 {
+    font-family: 'Nosifer', cursive;
+    font-size: 3rem; /* Título grande */
+    color: #ff2222;
+    text-shadow: 0 0 8px #ff2222, 0 0 12px #ff2222;
+    margin: 0;
+  }
 
-      /************************************
-        FOOTER
-      *************************************/
-      footer {
-        background: #200000;
-        text-align: center;
-        color: #cccccc;
-        padding: 1rem 0;
-      }
+  header p {
+    margin-top: 0.75rem;
+    font-size: 1.3rem; /* Subtítulo también grande */
+    color: #e0e0e0;
+  }
 
-      /************************************
-        SCROLLBAR PERSONALIZADO
-      *************************************/
-      ::-webkit-scrollbar {
-        width: 8px;
-      }
-      ::-webkit-scrollbar-track {
-        background: #200000;
-      }
-      ::-webkit-scrollbar-thumb {
-        background: #700000;
-        border-radius: 9999px;
-      }
+  /************************************
+    CONTENEDOR PRINCIPAL
+  *************************************/
+  main {
+    /* Rellena el espacio entre header y footer */
+    flex: 1 1 auto;
+
+    /* Distribuimos en columna y centramos */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+
+    /* Sin scroll global */
+    overflow: hidden;
+    padding: 1rem;
+  }
+
+  /************************************
+    TARJETA DE INFORMACIÓN (CONTADOR)
+  *************************************/
+  .info-card {
+    background: rgba(25, 0, 0, 0.9);
+    border: 1px solid #440000;
+    border-radius: 0.75rem;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+
+    /* Limitar ancho para no ocupar toda la pantalla */
+    max-width: 1100px;
+    width: 90%;
+    padding: 1.5rem;
+    text-align: center;
+    font-size: 1.2rem; /* Aumenta tamaño del texto interno */
+    margin-bottom: 2rem;
+    margin-top: 0.3rem;
+  }
+
+  /************************************
+    TABLA DE CRIPTOS
+  *************************************/
+  /* Contenedor con scroll interno */
+  .crypto-table-container {
+    background: rgba(25, 0, 0, 0.9);
+    border: 1px solid #440000;
+    border-radius: 0.75rem;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+
+    /* Limitar el ancho para que no sea gigante */
+    max-width: 1100px;
+    width: 90%;
+
+    /* Controlar la altura para que no ocupe toda la pantalla */
+    max-height: 443px;
+
+    margin: 0 auto;
+    overflow: auto;
+  }
+
+  .crypto-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1.1rem; /* Aumentamos un poco el texto de la tabla */
+  }
+
+  .crypto-table thead tr {
+    background-color: #2a0000;
+    border-bottom: 1px solid #440000;
+  }
+
+  .crypto-table thead th {
+    color: #f5f5f5;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.75rem;
+  }
+
+  .crypto-table tbody tr {
+    border-bottom: 1px solid #440000;
+    transition: background 0.2s;
+  }
+
+  .crypto-table tbody tr:hover {
+    background: rgba(255, 40, 40, 0.15);
+  }
+
+  .crypto-table tbody td {
+    padding: 0.75rem;
+  }
+
+  /************************************
+    ANIMACIONES DE PRECIOS
+  *************************************/
+  .price-up {
+    animation: flash-green 1s ease-in-out;
+  }
+  .price-down {
+    animation: flash-red 1s ease-in-out;
+  }
+
+  @keyframes flash-green {
+    0% { background-color: #10b981; color: #000; }
+    100% { background-color: transparent; color: inherit; }
+  }
+
+  @keyframes flash-red {
+    0% { background-color: #ef4444; color: #000; }
+    100% { background-color: transparent; color: inherit; }
+  }
+
+  /************************************
+    ANIMACIÓN DE CARGA
+  *************************************/
+  .loading {
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%   { opacity: 0.5; }
+    50%  { opacity: 1; }
+    100% { opacity: 0.5; }
+  }
+
+  /************************************
+    FOOTER
+  *************************************/
+  footer {
+    background: #200000;
+    text-align: center;
+    color: #cccccc;
+
+    /* Padding algo moderado */
+    padding: 1rem 0;
+    /* Ocupa altura fija aproximada */
+    flex: 0 0 auto;
+  }
+
+  /************************************
+    SCROLLBAR PERSONALIZADO
+  *************************************/
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #200000;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #700000;
+    border-radius: 9999px;
+  }
+
