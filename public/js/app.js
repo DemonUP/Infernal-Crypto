@@ -1,5 +1,12 @@
   // Ajusta el año en el footer
   document.getElementById('year').textContent = new Date().getFullYear();
+    const header = document.querySelector('header');
+    const footer = document.querySelector('footer');
+
+// En cada frame, calculamos los límites
+    const topBoundary = header.offsetHeight;
+    const bottomBoundary = window.innerHeight - footer.offsetHeight;
+
 
   let countdown = 0;
   let cryptoData = {};
@@ -94,33 +101,88 @@
     canvas.height = window.innerHeight;
   }
 
-  function createDroplets(count) {
+// Crea gotas con velocidades iniciales muy pequeñas
+function createDroplets(count) {
     droplets = [];
     for (let i = 0; i < count; i++) {
       droplets.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        r: 2 + Math.random() * 4, // Radio entre 2 y 6
-        vx: (Math.random() - 0.5) * 0.3,
-        vy: (Math.random() - 0.5) * 0.3,
+        r: 2 + Math.random() * 4,
+        // Velocidad inicial reducida (ajusta a tu gusto)
+        vx: (Math.random() - 0.5) * 0.25,
+        vy: (Math.random() - 0.5) * 0.25,
         color: 'rgba(200, 0, 0, 0.7)'
       });
     }
   }
 
+  // Listener para detectar el movimiento del mouse y aplicar impulso
+  window.addEventListener('mousemove', (e) => {
+    const mouseX = e.clientX;
+    const mouseY = e.clientY;
+
+    droplets.forEach(d => {
+      let dx = d.x - mouseX;
+      let dy = d.y - mouseY;
+      let distance = Math.sqrt(dx * dx + dy * dy);
+
+      if (distance < 100) {
+        let angle = Math.atan2(dy, dx);
+        let repelForce = (100 - distance) / 100;
+        d.vx += Math.cos(angle) * repelForce * 1.5;
+        d.vy += Math.sin(angle) * repelForce * 1.5;
+      }
+    });
+  });
+
+
+  // Función de animación con fricción y rebote
   function animateDroplets() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    // Calcula límites verticales según la altura de header y footer
+    const topBoundary = header.offsetHeight;
+    const bottomBoundary = window.innerHeight - footer.offsetHeight;
+
     for (let d of droplets) {
+      // Aplica fricción (se van frenando tras un empujón)
+      d.vx *= 0.98;
+      d.vy *= 0.98;
+
+      // Asegura una velocidad mínima para que no queden inmóviles
+      const speed = Math.sqrt(d.vx * d.vx + d.vy * d.vy);
+      const minSpeed = 0.15; // Ajusta este valor a tu gusto
+      if (speed < minSpeed) {
+        // Mantiene la dirección, pero fija la velocidad mínima
+        let angle = Math.atan2(d.vy, d.vx);
+        d.vx = Math.cos(angle) * minSpeed;
+        d.vy = Math.sin(angle) * minSpeed;
+      }
+
+      // Actualiza posición
       d.x += d.vx;
       d.y += d.vy;
 
-      // Rebote suave o wrap-around
-      if (d.x < -d.r) d.x = canvas.width + d.r;
-      if (d.x > canvas.width + d.r) d.x = -d.r;
-      if (d.y < -d.r) d.y = canvas.height + d.r;
-      if (d.y > canvas.height + d.r) d.y = -d.r;
+      // Rebote en los bordes horizontales
+      if (d.x < d.r) {
+        d.x = d.r;
+        d.vx = -d.vx;
+      } else if (d.x > canvas.width - d.r) {
+        d.x = canvas.width - d.r;
+        d.vx = -d.vx;
+      }
 
+      // Rebote en los bordes verticales (entre header y footer)
+      if (d.y < topBoundary + d.r) {
+        d.y = topBoundary + d.r;
+        d.vy = -d.vy;
+      } else if (d.y > bottomBoundary - d.r) {
+        d.y = bottomBoundary - d.r;
+        d.vy = -d.vy;
+      }
+
+      // Dibuja la gota
       ctx.beginPath();
       ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2, false);
       ctx.fillStyle = d.color;
@@ -129,13 +191,12 @@
 
     requestAnimationFrame(animateDroplets);
   }
-
   // Ajustar y crear gotas
   window.addEventListener('resize', () => {
     resizeCanvas();
-    createDroplets(30);
+    createDroplets(10);
   });
 
   resizeCanvas();
-  createDroplets(70);
+  createDroplets(100);
   animateDroplets();

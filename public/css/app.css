@@ -44,16 +44,17 @@ html, body {
     z-index: -1;
   }
 
-  /* Canvas para gotas de sangre */
-  #bloodCanvas {
+/* Cambia pointer-events a auto para que el canvas reciba eventos */
+#bloodCanvas {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    pointer-events: none;
+    pointer-events: auto; /* Se cambió de none a auto */
     z-index: -2;
   }
+
 
   /************************************
     ENCABEZADO
